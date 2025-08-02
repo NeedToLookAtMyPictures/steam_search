@@ -48,7 +48,11 @@ BucketLevel algorithms_b::setBucket(string& selected, string& candidate, unorder
 }
 
 algorithms_b::algorithms_b()
-{}
+{
+    processed.clear();
+    buckets.clear();
+    scores.clear();
+}
 
 // allows us to see if the savedHeap is exhausted, useful to decisionTreeNext logic in main
 bool algorithms_b::isHeapEmpty()
@@ -108,12 +112,18 @@ vector<string> algorithms_b::decisionTree(string& selected, unordered_map<string
     }
 
     // iterate through the candidates container and for each candidate decide which bucket it belongs in
-    int chunk = 1000 > num_games ? 1000 : num_games;
+    int chunk = 1000;
     for (int i = 0; i < chunk; i++) // chunks the candidates evaluated to avoid prolonged computation
     {
+        if (processed.contains(savedHeap.top().second))
+        {
+            savedHeap.pop();
+            continue;
+        }
         string name = savedHeap.top().second;
         savedHeap.pop();
         BucketLevel level = setBucket(selected, name, gameData, scores);
+        processed.insert(savedHeap.top().second);
         buckets[level].push_back(name);
     }
 
@@ -141,13 +151,20 @@ vector<string> algorithms_b::decisionTree(string& selected, unordered_map<string
 // this function allows for us to compute more games if the user exhausts the previous chunk of games
 vector<string> algorithms_b::decisionTreeNext(string& selected, unordered_map<string, Game>& gameData, int num_games)
 {
+    buckets.clear();
     // iterate through the candidates container and for each candidate decide which bucket it belongs in
-    int chunk = 1000 > num_games ? 1000 : num_games;
+    int chunk = 1000;
     for (int i = 0; i < chunk; i++) // chunks the candidates evaluated to avoid prolonged computation
     {
+        if (processed.contains(savedHeap.top().second))
+        {
+            savedHeap.pop();
+            continue;
+        }
         string name = savedHeap.top().second;
         savedHeap.pop();
         BucketLevel level = setBucket(selected, name, gameData, scores);
+        processed.insert(savedHeap.top().second);
         buckets[level].push_back(name);
     }
 
