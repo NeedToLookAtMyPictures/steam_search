@@ -9,12 +9,25 @@
 using json = nlohmann::json;
 using namespace std;
 
+// remove ™ ® © from a given string and return cleaned version
+string cleanName(string name) {
+    static const vector<string> unwanted = {"©", "®", "™"};
+    for (const auto& symbol : unwanted) {
+        size_t pos;
+        while ((pos = name.find(symbol)) != string::npos) {
+            name.erase(pos, symbol.size());
+        }
+    }
+    return name;
+}
+
 // used each run for converting the data in steam_games.json into a manipulable object
 void readJson(json& dataJSON, unordered_map<string, Game>& allGames) {
 
     for (const auto& [game_id, game_info] : dataJSON.items()) {
         // iterates 111452 times (amount of games)
         string name = game_info.value("name", "");
+        name = cleanName(name);
 
         // TODO replace trash with more readable variable names
 
@@ -126,7 +139,7 @@ void collectMetrics(json& dataJSON, unordered_map<string, string>& decoder)
     for (const auto& [game_id, game_info] : dataJSON.items()) { // iterates 111452 times (amount of games)
         for (const auto& [game_name, trash] : game_info["name"].items()) {
             string name = to_string(trash).substr(1, to_string(trash).size()-2);
-            decoder[game_id] = name;
+            decoder[game_id] = cleanName(name);
         }
     }
 }
