@@ -27,24 +27,24 @@ using namespace std;
 
 int main()
 {
-    cout << "Prepping dataset, and preprocessing data for algorithms. Please wait..." << endl;
-    ifstream f("../games.json");
+    cout << "\nPrepping dataset, and preprocessing data for algorithms. Please wait up to 2 minutes..." << endl;
+    ifstream f("../games_less.json");
     // Check if the file opened successfully
     if (!f.is_open()) {
-        cout << "Error: Could not open given JSON. Please ensure the file exists and the path is correct." << endl;
+        cout << "\nError: Could not open given JSON. Please ensure the file exists and the path is correct." << endl;
         return 1; // Exit the program if the file cannot be opened
     }
 
-    cout << "\n----------------------------------\n";
+    cout << "---------------------------------------------------------------------------------------\n";
 
     json dataJSON = json::parse(f);
     cout << "\nLoaded " << dataJSON.size() << " games from JSON." << endl;
     string source;
 
     unordered_map<string, Game> metaData;
-    cout << "\nCalling readJson to populate game data object..." << endl;
+    cout << "Calling readJson to populate game data objects..." << endl;
     readJson(dataJSON, metaData); // Populate your game data map
-    cout << "\nFinished populating game data." << endl;
+    cout << "Finished populating game data." << endl;
 
 
     string tagFile = "../tags.txt";
@@ -61,7 +61,7 @@ int main()
         }
     }
 
-    cout << "\n----------------------------------\n";
+    cout << "-----------------------------\n";
 
     string response;
     while (response != "q" || response != "Q")
@@ -83,6 +83,7 @@ int main()
             }
         }
         cout << "\nWhat algorithm would you like for us to use: \n0 - Jaccard's Tag Similarity\n1 - Weighted Jaccard's Tag Similarity\n2 - Rule Based Decision Tree\n3 - Min Hashing\n4 - Cosine Similarity\n5 - Multi-Feature Similarity" << endl;
+        cout << "-----------------------------"<< endl;
         int choice;
         cin >> choice;
 
@@ -101,7 +102,8 @@ int main()
             continue;
         }
 
-        cout << "\nHow many games would you like displayed at a time: " << endl;
+        cout << "How many games would you like displayed at a time: " << endl;
+        cout << "--------------------------------------------------"<< endl;
         int num_games;
         cin >> num_games;
 
@@ -176,7 +178,7 @@ int main()
             }
             break;
 
-        case 1: // Jaccards (weighted)
+        case 1: // Jaccard (weighted)
             // clears maxHeap if necessary
                 while(!maxHeap.empty())
                 {
@@ -289,7 +291,7 @@ int main()
 
             cout << "\n";
             for (i = 0; i < num_games && !similarGames.empty() ; i++) {
-                cout << "Similarity: " << similarGames.top().first << "  |  Game: " << similarGames.top().second << endl;
+                cout << similarGames.top().second << endl;
                 similarGames.pop();
             }
             cout << "\nq - quit; m - print " << num_games << " more games; r - return to the main menu" << endl;
@@ -325,7 +327,7 @@ int main()
 
             cout << "\n";
             for (i = 0; i < num_games && !cosineHeap.empty() ; i++) {
-                cout << "Similarity: " << cosineHeap.top().first << "  |  Game: " << cosineHeap.top().second  << endl;
+                cout << cosineHeap.top().second  << endl;
                 cosineHeap.pop();
             }
             cout << "\nq - quit; m - print " << num_games << " more games; r - return to the main menu" << endl;
@@ -372,7 +374,7 @@ int main()
             // prints similar games
             cout << "\n";
             for (i = 0; i < num_games && !topSimilarGames.empty() ; i++) {
-                cout << "Similarity: " << fixed << setprecision(4) << topSimilarGames.top().first << " | Game:  " << topSimilarGames.top().second << endl;
+                cout << topSimilarGames.top().second << endl;
                 topSimilarGames.pop();
             }
             cout << "\nq - quit; m - print " << num_games << " more games; r - return to the main menu" << endl;
