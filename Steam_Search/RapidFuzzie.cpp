@@ -6,16 +6,16 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <iomanip> // for precision setting
-#include <limits> // for numeric_limits
-#include <cctype> // for tolower
+#include <iomanip>
+#include <limits>
+#include <cctype>
 
 #include <rapidfuzz/fuzz.hpp>
 
 // Constructor Initializes values
 RapidFuzzie::RapidFuzzie(const std::unordered_map<std::string, Game> &metaData, double threshold)
     : allGameMetaData(metaData), similarityThreshold(threshold) {
-    success = false; // Initialize success flag in constructor
+    success = false;
 }
 
 bool RapidFuzzie::getSuccess() {
@@ -24,11 +24,12 @@ bool RapidFuzzie::getSuccess() {
 
 std::string RapidFuzzie::getMatchedName() {
     std::string inputGN;
-    std::string selectedGameName = ""; // Stores the final selected game name
+    std::string selectedGameName = "";
 
     // Keep looping until a valid game is chosen or the user decides to quit.
     while (true) {
-        std::cout << "\nPlease input the game you'd like us to search (type 'q' to quit): " << std::endl;
+        std::cout << "\nPlease input the game you want recommendations based on (type 'q' to quit): " << std::endl;
+        std::cout << "---------------------------------------------------------------------------" << endl;
         std::getline(std::cin, inputGN); // read line of full game name
         inputGN.erase(inputGN.find_last_not_of(" \t\r\n") + 1); // remove trailing or leading whitespace
 
@@ -55,7 +56,7 @@ std::string RapidFuzzie::getMatchedName() {
         }
 
         if (allGameNames.empty()) { // if it's empty then return
-            std::cout << "No games available in the dataset for fuzzy matching." << std::endl;
+            std::cout << "Game is not in the dataset." << std::endl;
             success = false;
             return ""; // Exit the loop and function
         }
@@ -90,24 +91,22 @@ std::string RapidFuzzie::getMatchedName() {
         int maxSuggestionsToPrint = 3; // You can change this to 2, 5, etc.
 
         if (!potentialMatches.empty()) {
-            std::cout << "\nDid you mean one of these?" << std::endl;
+            std::cout << "Did you mean one of these?" << std::endl;
             std::cout << "--------------------------" << std::endl;
 
             for (int i = 0; i < potentialMatches.size() && i < maxSuggestionsToPrint; ++i) {
-                std::cout << (i + 1) << ". '" << potentialMatches[i].second
-                          << "' (Similarity: " << std::fixed << std::setprecision(2)
-                          << potentialMatches[i].first << "%)" << std::endl;
+                std::cout << (i + 1) << ". '" << potentialMatches[i].second << "'" << endl;
             }
 
             // Prompt user to select one of the suggestions or re-enter
             std::cout << "--------------------------" << std::endl;
-            std::cout << "Enter the number of your choice, or 0 to re-enter: ";
+            std::cout << "Enter the number of your choice, or 0 to re-enter a new game: ";
             int choiceNum;
 
             // Use a loop for robust numerical input, clearing error flags if non-numeric input is given.
             while (!(std::cin >> choiceNum)) {
                 std::cout << "Invalid input. Please enter a number: ";
-                std::cin.clear(); // Clear error flags
+                std::cin.clear();
                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
             }
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Clear leftover newline
@@ -119,7 +118,7 @@ std::string RapidFuzzie::getMatchedName() {
                 std::cout << "You selected: '" << selectedGameName << "'." << std::endl;
                 return selectedGameName; // Exit the loop and function with the selected name
             } else if (choiceNum == 0) {
-                std::cout << "Re-entering game name..." << std::endl;
+
                 // Loop continues to re-prompt for inputGN
             } else {
                 std::cout << "Invalid choice. Please enter a valid number from the list or 0 to re-enter." << std::endl;
@@ -128,8 +127,7 @@ std::string RapidFuzzie::getMatchedName() {
         }
         else {
             // No matches found above the similarity threshold.
-            std::cout << "No close matches found for your input above "
-                      << std::fixed << std::setprecision(2) << similarityThreshold << "% similarity." << std::endl;
+            std::cout << "No close matches found for your input above." << endl;
             std::cout << "Please try again with a more accurate name." << std::endl;
 
             // Offer to re-enter or return empty.
