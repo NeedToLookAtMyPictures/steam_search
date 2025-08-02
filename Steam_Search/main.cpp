@@ -307,6 +307,7 @@ int main(){
                 {
                     cout << "\nNo more games to display in this ranking. Would you like to calculate more? [y/n]" << endl;
                     cin >> response;
+                    cout << "Please Wait..." << endl;
                     if (response == "y")
                     {
 
