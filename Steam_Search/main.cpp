@@ -6,10 +6,10 @@
 #include <nlohmann/json.hpp>
 #include <sstream>
 #include <thread>
+#include <limits>
 
 #include "Game.h"
 
-#include "Game.h"
 #include "readJson.h"
 #include "minHash.h"
 #include "jaccardsSimilarity.h"
@@ -71,7 +71,7 @@ int main(){
     cout << "\nPrepping dataset, and preprocessing data for algorithms. Please wait up to 2 minutes...\n" << endl;
 
     cout << "[.] Loading JSON file..." << flush;
-    ifstream f("../games.json");
+    ifstream f("../games_less.json");
     if (!f.is_open()) {
         cout << "\n[X] Error: Could not open given JSON." << endl;
         return 1;
@@ -127,37 +127,48 @@ int main(){
         }
         cout << "\nWhat algorithm would you like for us to use: \n0 - Jaccard's Tag Similarity\n1 - Weighted Jaccard's Tag Similarity\n2 - Rule Based Decision Tree\n3 - Min Hashing\n4 - Cosine Similarity\n5 - Multi-Feature Similarity" << endl;
         cout << "-----------------------------"<< endl;
+
         int choice;
-        cin >> choice;
+        while (true) {
+            cout << "Your choice [0-5]: ";
+            cin >> choice;
 
-        //edge case
-        if (cin.fail()) {
-            cout << "Invalid input. returning to main sequence...\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            continue;
-        }
-        //edge case
-        if (choice < 0 || choice > 5) {
-            cout << "\nInvalid choice (" << choice << "). Returning to main sequence...\n";
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            continue;
+            if (cin.fail()) {
+                cout << "Invalid input. Please enter a number." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+
+            if (choice >= 0 && choice <= 5) {
+                break;
+            } else {
+                cout << "Invalid choice (" " " << choice << " " ") Please try again." << endl;
+            }
         }
 
-        cout << "How many games would you like displayed at a time: " << endl;
+        cout << "\nHow many games would you like displayed at a time: " << endl;
         cout << "--------------------------------------------------"<< endl;
         int num_games;
-        cin >> num_games;
+        while (true) {
+            cout << "Number of games: ";
+            cin >> num_games;
 
-        if (num_games <= 0) {
-            cout << "Invalid number of games... Printing 1 game\n" << endl;
-            num_games = 1;
-        } //edge case
-        else
-        {
-            cout << "Please wait..." << endl;
+            if (cin.fail()) {
+                cout << "Invalid input. Please enter a positive number." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                continue;
+            }
+
+            if (num_games > 0) {
+                cout << "\nPlease wait..." << endl;
+                break;
+            } else {
+                cout << "Please enter a number greater than 0." << endl;
+            }
         }
+
 
         // declaring all varaibles used within the switch-case, needed as switches don't allow object declaration
         string compare;
@@ -197,6 +208,8 @@ int main(){
                 }
             }
 
+            cout << "Printing top " << num_games << " most similar games:" << endl;
+            cout << "------------------------------------" << endl;
             for (i = 0; i < num_games && !maxHeap.empty(); i++) {
                 cout << maxHeap.top().second << endl;
                 maxHeap.pop();
@@ -234,6 +247,9 @@ int main(){
                     maxHeap.emplace(jaccardsSimilarityWeighted(source, compare, metaData), value);
                 }
             }
+
+            cout << "Printing top " << num_games << " most similar games:" << endl;
+            cout << "------------------------------------" << endl;
             for (i = 0; i < num_games && !maxHeap.empty(); i++) {
                 cout << maxHeap.top().second << endl;
                 maxHeap.pop();
@@ -260,6 +276,9 @@ int main(){
         case 2: // Decision Tree
             rankings = DecisionTree.decisionTree(source, metaData, num_games);
             cout << "\n";
+
+            cout << "Printing top " << num_games << " most similar games:" << endl;
+            cout << "------------------------------------" << endl;
 
             for (i = 0; i < num_games && !rankings.empty(); i++)
             {
@@ -332,6 +351,8 @@ int main(){
             }
 
             cout << "\n";
+            cout << "Printing top " << num_games << " most similar games:" << endl;
+            cout << "------------------------------------" << endl;
             for (i = 0; i < num_games && !similarGames.empty() ; i++) {
                 cout << similarGames.top().second << endl;
                 similarGames.pop();
@@ -368,6 +389,8 @@ int main(){
             }
 
             cout << "\n";
+            cout << "Printing top " << num_games << " most similar games:" << endl;
+            cout << "------------------------------------" << endl;
             for (i = 0; i < num_games && !cosineHeap.empty() ; i++) {
                 cout << cosineHeap.top().second  << endl;
                 cosineHeap.pop();
@@ -396,7 +419,7 @@ int main(){
             sourceGame = &metaData[source];
             cout << "\nFinding similar games to: '" << source << "'" << endl;
             cout << "Using Weights: Tags=" << weightTags << ", Publishers=" << weightPublishers << ", Developers=" << weightDevelopers << ", Review Score=" << weightReviewScore << endl;
-            cout << "----------------------------------------------------" << endl;
+            cout << "-------------------------------------------------------------------------" << endl;
             // Iterate through all other games in metaData
             for (const auto& pair : metaData) {
                 const string& compareGameName = pair.first;
@@ -415,6 +438,8 @@ int main(){
             }
             // prints similar games
             cout << "\n";
+            cout << "Printing top " << num_games << " most similar games:" << endl;
+            cout << "------------------------------------" << endl;
             for (i = 0; i < num_games && !topSimilarGames.empty() ; i++) {
                 cout << topSimilarGames.top().second << endl;
                 topSimilarGames.pop();

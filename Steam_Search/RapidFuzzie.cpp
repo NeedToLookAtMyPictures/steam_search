@@ -56,7 +56,7 @@ std::string RapidFuzzie::getMatchedName() {
         }
 
         if (allGameNames.empty()) { // if it's empty then return
-            std::cout << "No games available in the dataset for fuzzy matching." << std::endl;
+            std::cout << "Game is not in the dataset." << std::endl;
             success = false;
             return ""; // Exit the loop and function
         }
@@ -127,8 +127,7 @@ std::string RapidFuzzie::getMatchedName() {
         }
         else {
             // No matches found above the similarity threshold.
-            std::cout << "No close matches found for your input above "
-                      << std::fixed << std::setprecision(2) << similarityThreshold << "% similarity." << std::endl;
+            std::cout << "No close matches found for your input above." << endl;
             std::cout << "Please try again with a more accurate name." << std::endl;
 
             // Offer to re-enter or return empty.
