@@ -160,13 +160,28 @@ int main(){
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 continue;
             }
-
+/*
             if (num_games > 0) {
                 cout << "\nPlease wait..." << endl;
                 break;
             } else {
                 cout << "Please enter a number greater than 0." << endl;
             }
+*/
+
+        if (choice == 2 && num_games > 500)
+        {
+            num_games = 500;
+            cout << num_games << " is an invalid display amount... Printing 500 games\n" << endl;
+        }
+
+        if (num_games <= 0) {
+            cout << "Invalid number of games... Printing 1 game\n" << endl;
+            num_games = 1;
+        } //edge case
+        else
+        {
+            cout << "Please wait..." << endl;
         }
 
 
@@ -325,7 +340,6 @@ int main(){
             break;
 
         case 3: // Min Hash
-            // TODO: check for any bugs
             //minhashing preprep
                 allSignatures.clear();
 
