@@ -105,6 +105,12 @@ int main()
         int num_games;
         cin >> num_games;
 
+        if (choice == 2 && num_games > 500)
+        {
+            num_games = 500;
+            cout << num_games << " is an invalid display amount... Printing 500 games\n" << endl;
+        }
+
         if (num_games <= 0) {
             cout << "Invalid number of games... Printing 1 game\n" << endl;
             num_games = 1;
@@ -262,7 +268,6 @@ int main()
             break;
 
         case 3: // Min Hash
-            // TODO: check for any bugs
             //minhashing preprep
                 allSignatures.clear();
 
