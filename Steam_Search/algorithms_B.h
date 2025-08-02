@@ -30,6 +30,7 @@ private:
     priority_queue<pair<double, string>> savedHeap;
     unordered_map<string, double> scores;
     map<BucketLevel, vector<string>> buckets;
+    unordered_set<string> processed;
     BucketLevel setBucket(string& selected, string& candidate, unordered_map<string, Game>& gameData, unordered_map<string, double> scores);
 public:
     algorithms_b();
