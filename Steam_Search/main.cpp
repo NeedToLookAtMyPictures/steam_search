@@ -5,6 +5,8 @@
 #include <queue>
 #include <nlohmann/json.hpp>
 #include <sstream>
+#include <thread>
+
 #include "Game.h"
 
 #include "Game.h"
@@ -25,27 +27,68 @@ using namespace std;
 // doesn't feel proper to replace accented characters or other foregin language characters from games, it's too
 // transformative. To account for this we implemented a fuzzy matching system so it shouldn't be a problems
 
-int main()
-{
-    cout << "\nPrepping dataset, and preprocessing data for algorithms. Please wait up to 2 minutes..." << endl;
-    ifstream f("../games_less.json");
-    // Check if the file opened successfully
-    if (!f.is_open()) {
-        cout << "\nError: Could not open given JSON. Please ensure the file exists and the path is correct." << endl;
-        return 1; // Exit the program if the file cannot be opened
+
+void showLogo() {
+    string steam[] = {
+        "       _____ _____ ______          __   __ ",
+        "      / ____|_   _|  ____|   /\\   |  \\/  |",
+        "     | (___   | | | |__     /  \\  | \\  / |",
+        "      \\___ \\  | | |  __|   / /\\ \\ | |\\/| |",
+        "      ____) | | | | |____ / ____ \\| |  | |",
+        "     |_____/  |_| |______/_/    \\_\\_|  |_|"
+    };
+
+    string search[] = {
+        "  _____  ______            _____   _____  __   __   ",
+        " / ____||  ____|   /\\     |    \\\\ ( ____)| |  | | ",
+        "| (___  | |__     /  \\    | |__)| ||     | |__| |  ",
+        " \\___ \\ |  __|   / /\\     | ___/  ||     | |__| |  ",
+        " ____) || |____ / ____ \\  |   \\\\  ||____ | |  | | ",
+        "|_____/ |______/_/    \\_\\ |_|  \\\\ (_____)|_|  |_| "
+    };
+
+
+    cout << endl;
+
+    for (auto& line : steam) {
+        cout << line << endl;
+        this_thread::sleep_for(chrono::milliseconds(40));
     }
 
-    cout << "---------------------------------------------------------------------------------------\n";
+    cout << endl;
+    for (auto& line : search) {
+        cout << line << endl;
+        this_thread::sleep_for(chrono::milliseconds(40));
+    }
+
+    cout << "\n\nLoading..." << endl;
+
+}
+int main(){
+
+    showLogo();
+
+    cout << "\nPrepping dataset, and preprocessing data for algorithms. Please wait up to 2 minutes...\n" << endl;
+
+    cout << "[.] Loading JSON file..." << flush;
+    ifstream f("../games.json");
+    if (!f.is_open()) {
+        cout << "\n[X] Error: Could not open given JSON." << endl;
+        return 1;
+    }
 
     json dataJSON = json::parse(f);
-    cout << "\nLoaded " << dataJSON.size() << " games from JSON." << endl;
+    cout << "\r[1] JSON file loaded" << " (" << dataJSON.size()  << " Games" << ")" << endl;
+
     string source;
 
-    unordered_map<string, Game> metaData;
-    cout << "Calling readJson to populate game data objects..." << endl;
-    readJson(dataJSON, metaData); // Populate your game data map
-    cout << "Finished populating game data." << endl;
+    cout << "\r[.] Populating game data..." << endl;
 
+    unordered_map<string, Game> metaData;
+    readJson(dataJSON, metaData); // Populate game data map
+    cout << "[2] Finished populating game data." << endl;
+
+    cout << "\r[.] Indexing tags..." << endl;
 
     string tagFile = "../tags.txt";
     unordered_map<string, int> indexedTags = readTags(tagFile);
@@ -61,7 +104,7 @@ int main()
         }
     }
 
-    cout << "-----------------------------\n";
+    cout << "[3] Finished indexing tags." << endl;
 
     string response;
     while (response != "q" || response != "Q")
@@ -149,7 +192,6 @@ int main()
             cout << "\n";
             for (const auto& [key, value] : decoder) {
                 if (value != source && metaData.contains(value)) {
-
                     compare = value;
                     maxHeap.emplace(jaccardsSimilarity(source, compare, metaData), value);
                 }
