@@ -58,6 +58,10 @@ unordered_map<string, int>Game :: getTags() const {
     return tags;
 }
 
+string Game::getImageURL() const {
+    return imageURL;
+}
+
 //Setters
 void Game :: setID(int id){
     this->ID = id;
@@ -121,6 +125,10 @@ void Game :: setReviewScore(int positive, int negative) {
 
 void Game :: setTags(unordered_map<string, int> tags) {
     this->tags = tags;
+}
+
+void Game:: setImageURL(string url) {
+    this->imageURL = url;
 }
 
 //methods

@@ -104,6 +104,8 @@ void readJson(json& dataJSON, unordered_map<string, Game>& allGames) {
         int positive = game_info.value("positive", 0);
         int negative = game_info.value("negative", 0);
         allGames[name].setReviewScore(positive, negative);
+
+        allGames[name].setImageURL(game_info.value("header_image", ""));
     }
 }
 
