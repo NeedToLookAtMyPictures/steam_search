@@ -216,6 +216,11 @@ int main() {
                     maxHeap.pop();
                 }
 
+                cout << "-------------------"<< endl;
+                cout << "Jaccards:" << endl;
+                cout << "Running Time:  " << run_duration.count() << " ms" << endl;
+                cout << "Total Time:    " << (setup_duration + run_duration).count() << " ms" << endl;
+
                 cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
                 cin >> response;
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -260,6 +265,11 @@ int main() {
                     maxHeap.pop();
                 }
 
+                cout << "-------------------"<< endl;
+                cout << "Weighted Jaccards:" << endl;
+                cout << "Running Time:  " << run_duration.count() << " ms" << endl;
+                cout << "Total Time:    " << (setup_duration + run_duration).count() << " ms" << endl;
+
                 cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
                 cin >> response;
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -291,6 +301,11 @@ int main() {
                     cout << rankings[i] << endl;
                 }
 
+                cout << "-------------------"<< endl;
+                cout << "Decision Tree:" << endl;
+                cout << "Running Time:  " << run_duration.count() << " ms" << endl;
+                cout << "Total Time:    " << (setup_duration + run_duration).count() << " ms" << endl;
+
                 cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
                 cin >> response;
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -302,17 +317,30 @@ int main() {
                         if (response == "y") {
                             cout << "\nPlease Wait..." << endl;
                             i = 0;
+                            auto start_run_new = chrono::high_resolution_clock::now();
                             rankings = DecisionTree.decisionTreeNext(source, metaData, num_games);
+                            auto stop_run_new = chrono::high_resolution_clock::now();
+                            run_duration = chrono::duration_cast<chrono::milliseconds>(stop_run_new - start_run_new);
+
+                            cout << "\nPrinting new batch of games:" << endl;
+                            cout << "------------------------------------" << endl;
                             for (int j = 0; j < num_games && i < rankings.size(); j++, i++) {
-                                cout << rankings[i] << endl;
+                                cout << rankings[j] << endl;
                             }
-                            response = "m"; // To re-enter the loop if needed
+
+                            cout << "-------------------"<< endl;
+                            cout << "New Batch Decision Tree Speed:" << endl;
+                            cout << "Running Time:  " << run_duration.count() << " ms" << endl;
+
+                            cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
+                            cin >> response;
+                            cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             continue;
+                        } else {
+                           // THE FIX IS HERE: Treat 'n' or anything else as 'r'
+                           response = "r";
+                           break;
                         }
-                        cout << "\nq - quit; r - return to main menu" << endl;
-                        cin >> response;
-                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                        break;
                     }
                     if (i >= rankings.size() || DecisionTree.isHeapEmpty()) {
                         cout << "\nNo more games to display." << endl;
@@ -358,6 +386,12 @@ int main() {
                     similarGames.pop();
                 }
 
+                cout << "-------------------"<< endl;
+                cout << "Min-Hash:" << endl;
+                cout << "Setup Time:    " << setup_duration.count() << " ms" << endl;
+                cout << "Running Time:  " << run_duration.count() << " ms" << endl;
+                cout << "Total Time:    " << (setup_duration + run_duration).count() << " ms" << endl;
+
                 cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
                 cin >> response;
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -399,6 +433,12 @@ int main() {
                     cout << cosineHeap.top().second  << endl;
                     cosineHeap.pop();
                 }
+
+                cout << "-------------------"<< endl;
+                cout << "Cosine Similarity:" << endl;
+                cout << "Setup Time:    " << setup_duration.count() << " ms" << endl;
+                cout << "Running Time:  " << run_duration.count() << " ms" << endl;
+                cout << "Total Time:    " << (setup_duration + run_duration).count() << " ms" << endl;
 
                 cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
                 cin >> response;
@@ -445,6 +485,11 @@ int main() {
                     topSimilarGames.pop();
                 }
 
+                cout << "-------------------"<< endl;
+                cout << "Multi-Feature Similarity:" << endl;
+                cout << "Running Time:  " << run_duration.count() << " ms" << endl;
+                cout << "Total Time:    " << (setup_duration + run_duration).count() << " ms" << endl;
+
                 cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
                 cin >> response;
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -466,11 +511,6 @@ int main() {
             }
         }
 
-        cout << "Timing Details" << endl;
-        cout << "-------------------"<< endl;
-        cout << "Setup Time:    " << setup_duration.count() << " ms" << endl;
-        cout << "Running Time:  " << run_duration.count() << " ms" << endl;
-        cout << "Total Time:    " << (setup_duration + run_duration).count() << " ms" << endl;
 
         if (response == "r" || response == "R") {
             continue;
