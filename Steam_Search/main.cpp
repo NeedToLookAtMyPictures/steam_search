@@ -115,8 +115,7 @@ int main() {
             }
 
             if (source == "q") {
-                cout << "\nThank you for using our program!\nCredits:\nBayan Mahmoodi\nKushagra Katiyar\nAgnivesh Kaundinya\nexiting..." << endl;
-                cout << "--------" << endl;
+                cout << "\nThank you for using Steam Search!\nCredits:\nBayan Mahmoodi\nKushagra Katiyar\nAgnivesh Kaundinya\n\nexiting..." << endl;
                 return 0;
             }
         }
@@ -820,7 +819,7 @@ int main() {
             if (response == "r" || response == "R") {
                 continue;
             } else if (response == "q" || response == "Q") {
-                cout << "\nThank you for using our program!\nCredits:\nBayan Mahmoodi\nKushagra Katiyar\nAgnivesh Kaundinya\nexiting..." << endl;
+                cout << "\nThank you for using Steam Search!!\nCredits:\nBayan Mahmoodi\nKushagra Katiyar\nAgnivesh Kaundinya\n\nexiting..." << endl;
                 break;
             } else if (response != "m" && response != "M") {
                 // invalid command
