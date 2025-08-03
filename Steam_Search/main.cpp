@@ -1,13 +1,13 @@
 #include <fstream>
 #include <iostream>
-#include <string>
+
 #include <unordered_map>
 #include <queue>
 #include <nlohmann/json.hpp>
 #include <sstream>
+#include <string>
 #include <thread>
 #include <limits>
-#include <iomanip>
 #include <chrono>
 
 #include "Game.h"
@@ -75,17 +75,17 @@ int main() {
     }
 
     json dataJSON = json::parse(f);
-    cout << "\r[1] JSON file loaded" << " (" << dataJSON.size()  << " Games" << ")" << endl;
+    cout << "[1] JSON file loaded" << " (" << dataJSON.size()  << " Games" << ")" << endl;
 
     string source;
 
-    cout << "\r[.] Populating game data..." << endl;
+    cout << "[.] Populating game data..." << endl;
 
     unordered_map<string, Game> metaData;
     readJson(dataJSON, metaData); // Populate game data map
     cout << "[2] Finished populating game data." << endl;
 
-    cout << "\r[.] Indexing tags..." << endl;
+    cout << "[.] Indexing tags..." << endl;
 
     string tagFile = "../tags.txt";
     unordered_map<string, int> indexedTags = readTags(tagFile);
@@ -102,7 +102,6 @@ int main() {
     }
 
     cout << "[3] Finished indexing tags." << endl;
-
     string response;
     while (response != "q" && response != "Q") {
         bool invalid = true;
@@ -121,6 +120,7 @@ int main() {
             }
         }
 
+        //selecct the algo to use and error handle the input
         cout << "\nWhat algorithm would you like for us to use: \n0 - Jaccard's Tag Similarity\n1 - Weighted Jaccard's Tag Similarity\n2 - Rule Based Decision Tree\n3 - Min Hashing\n4 - Cosine Similarity\n5 - Multi-Feature Similarity" << endl;
         cout << "-----------------------------"<< endl;
 
@@ -142,6 +142,7 @@ int main() {
             }
         }
 
+        //select how many games to be displayed and error handle input
         cout << "\nHow many games would you like displayed at a time: " << endl;
         cout << "--------------------------------------------------"<< endl;
         int num_games;
@@ -337,7 +338,6 @@ int main() {
                             cin.ignore(numeric_limits<streamsize>::max(), '\n');
                             continue;
                         } else {
-                           // THE FIX IS HERE: Treat 'n' or anything else as 'r'
                            response = "r";
                            break;
                         }
@@ -402,7 +402,7 @@ int main() {
                     }
                     cout << "\n";
                     for (i = 0; i < num_games && !similarGames.empty() ; i++) {
-                        cout << "Similarity: " << similarGames.top().first << "  |  Game: " << similarGames.top().second << endl;
+                        cout << similarGames.top().second << endl;
                         similarGames.pop();
                     }
                     cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
@@ -450,7 +450,7 @@ int main() {
                     }
                     cout << "\n";
                     for (i = 0; i < num_games && !cosineHeap.empty() ; i++) {
-                        cout << "Similarity: " << cosineHeap.top().first << "  |  Game: " << cosineHeap.top().second  << endl;
+                        cout << cosineHeap.top().second  << endl;
                         cosineHeap.pop();
                     }
                     cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
@@ -500,7 +500,7 @@ int main() {
                     }
                     cout << "\n";
                     for (i = 0; i < num_games && !topSimilarGames.empty() ; i++) {
-                        cout << "Similarity: " << fixed << setprecision(4) << topSimilarGames.top().first << " | Game:  " << topSimilarGames.top().second << endl;
+                        cout << topSimilarGames.top().second << endl;
                         topSimilarGames.pop();
                     }
                     cout << "\nq - quit; m - print " << num_games << " more games; r - return to main menu" << endl;
@@ -510,7 +510,6 @@ int main() {
                 break;
             }
         }
-
 
         if (response == "r" || response == "R") {
             continue;
