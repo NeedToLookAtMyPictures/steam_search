@@ -68,7 +68,7 @@ int main() {
     cout << "\nPrepping dataset, and preprocessing data for algorithms. Please wait up to 2 minutes...\n" << endl;
 
     cout << "[.] Loading JSON file..." << flush;
-    ifstream f("../games_less.json");
+    ifstream f("../games.json");
     if (!f.is_open()) {
         cout << "\n[X] Error: Could not open given JSON." << endl;
         return 1;
@@ -116,6 +116,7 @@ int main() {
 
             if (source == "q") {
                 cout << "\nThank you for using our program!\nCredits:\nBayan Mahmoodi\nKushagra Katiyar\nAgnivesh Kaundinya\nexiting..." << endl;
+                cout << "--------" << endl;
                 return 0;
             }
         }
@@ -129,22 +130,18 @@ int main() {
         while (true) {
             cout << "Your choice [0-6]: ";
             cin >> choice;
-            if (cin.fail()) {
-                cout << "Invalid input. Please enter a number." << endl;
+            if (cin.fail() || choice < 0 && choice > 6) {
+                cout << "Invalid choice (" << choice << "). Please try again." << endl;
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 continue;
-            }
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            if (choice >= 0 && choice <= 6) {
-                break;
             } else {
-                cout << "Invalid choice (" << choice << "). Please try again." << endl;
+                break;
             }
         }
 
-        //select how many games to be displayed and error handle input
-        if (choice != 6) {
+        //select how many games to be displayed and error handle input IF NOT CHOSEN OPTION 6
+        if (choice > 0 && choice <= 5) {
             cout << "\nHow many games would you like displayed at a time: " << endl;
             cout << "--------------------------------------------------"<< endl;
             while (true) {
@@ -531,7 +528,7 @@ int main() {
                 cout << "---------------------------"<< endl;
                 // Get first algorithm choice
                 while (true) {
-                    cout << "\nFirst algorithm choice [0-5]: ";
+                    cout << "First algorithm choice [0-5]: ";
                     cin >> alg1;
                     if (cin.fail() || alg1 < 0 || alg1 > 5) {
                         cout << "Invalid input. Please enter a number between 0 and 5." << endl;
@@ -562,7 +559,7 @@ int main() {
                 }
 
                 num_games = 5; // Default to 5 games for comparison
-                cout << "\nComparing the top " << num_games << " games. Please wait...\n" << endl;
+                cout << "Please wait...\n" << endl;
 
                 switch (alg1) {
                     case 0: { // Jaccards (unweighted)
@@ -769,7 +766,7 @@ int main() {
                 total_duration2 = setup_duration2 + run_duration2;
 
                 // --- Print Results ---
-                cout << "Comparison Results\n" << endl;
+                cout << "Comparison Results:" << endl;
                 cout << "-------------------" << endl;
 
                 // Algorithm 1 Times
@@ -787,18 +784,14 @@ int main() {
                 // Winner fstets alg
                 if (total_duration1 < total_duration2) {
                     cout << alg1_name << " was faster by " << (total_duration2 - total_duration1).count() << " ms." << endl;
-                    cout << "--------------------------------------\n" << endl;
                 } else if (total_duration2 < total_duration1) {
                     cout << alg2_name << " was faster by " << (total_duration1 - total_duration2).count() << " ms." << endl;
-                    cout << "--------------------------------------\n" << endl;
                 } else {
                     cout << "The algorithms took the same amount of time to run." << endl;
-                    cout << "--------------------------------------------------\n" << endl;
                 }
 
                 // Print top 5 games from Algorithm 1
                 cout << "Top " << num_games << " games from " << alg1_name << ":" << endl;
-                cout << "------------------------------------" << endl;
                 if (alg1 == 2) {
                     for (i = 0; i < num_games && i < temp_results_vector.size(); i++) {
                         cout << temp_results_vector[i] << endl;
@@ -812,7 +805,6 @@ int main() {
 
                 // Print top 5 games from Algorithm 2
                 cout << "\nTop " << num_games << " games from " << alg2_name << ":" << endl;
-                cout << "------------------------------------" << endl;
                 if (alg2 == 2) {
                     for (i = 0; i < num_games && i < results_vector2.size(); i++) {
                         cout << results_vector2[i] << endl;
