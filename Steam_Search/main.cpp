@@ -764,12 +764,10 @@ int main() {
                     }
                 }
                 total_duration2 = setup_duration2 + run_duration2;
-
-                // --- Print Results ---
                 cout << "Comparison Results:" << endl;
                 cout << "-------------------" << endl;
 
-                // Algorithm 1 Times
+                // Algorithm 1 Time
                 cout << alg1_name << ":" << endl;
                 cout << "Setup Time:    " << setup_duration1.count() << " ms" << endl;
                 cout << "Running Time:  " << run_duration1.count() << " ms" << endl;
