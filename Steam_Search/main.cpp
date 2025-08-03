@@ -461,8 +461,6 @@ int main() {
             }
             case 5: { // Multi-Feature Similarity
                 auto start_run = chrono::high_resolution_clock::now();
-
-                // TODO: check for any bugs
                 sourceGame = &metaData[source];
                 // Iterate through all other games in metaData
                 for (const auto& pair : metaData) {
