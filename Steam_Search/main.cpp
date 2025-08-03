@@ -294,7 +294,6 @@ int main() {
                         cout << "No more games to display." << endl;
                         break;
                     }
-                    cout << "\n";
                     for (i = 0; i < num_games && !maxHeap.empty(); i++) {
                         cout << maxHeap.top().second << endl;
                         maxHeap.pop();
@@ -415,7 +414,6 @@ int main() {
                         cout << "No more games to display." << endl;
                         break;
                     }
-                    cout << "\n";
                     for (i = 0; i < num_games && !similarGames.empty() ; i++) {
                         cout << similarGames.top().second << endl;
                         similarGames.pop();
@@ -463,7 +461,6 @@ int main() {
                         cout << "No more games to display." << endl;
                         break;
                     }
-                    cout << "\n";
                     for (i = 0; i < num_games && !cosineHeap.empty() ; i++) {
                         cout << cosineHeap.top().second  << endl;
                         cosineHeap.pop();
@@ -511,7 +508,6 @@ int main() {
                         cout << "No more games to display." << endl;
                         break;
                     }
-                    cout << "\n";
                     for (i = 0; i < num_games && !topSimilarGames.empty() ; i++) {
                         cout << topSimilarGames.top().second << endl;
                         topSimilarGames.pop();
@@ -764,31 +760,9 @@ int main() {
                     }
                 }
                 total_duration2 = setup_duration2 + run_duration2;
-                cout << "Comparison Results:" << endl;
-                cout << "-------------------" << endl;
-
-                // Algorithm 1 Time
-                cout << alg1_name << ":" << endl;
-                cout << "Setup Time:    " << setup_duration1.count() << " ms" << endl;
-                cout << "Running Time:  " << run_duration1.count() << " ms" << endl;
-                cout << "Total Time:    " << total_duration1.count() << " ms\n" << endl;
-
-                // Algorithm 2 Times
-                cout << alg2_name << ":" << endl;
-                cout << "Setup Time:    " << setup_duration2.count() << " ms" << endl;
-                cout << "Running Time:  " << run_duration2.count() << " ms" << endl;
-                cout << "Total Time:    " << total_duration2.count() << " ms\n" << endl;
-
-                // Winner fstets alg
-                if (total_duration1 < total_duration2) {
-                    cout << alg1_name << " was faster by " << (total_duration2 - total_duration1).count() << " ms." << endl;
-                } else if (total_duration2 < total_duration1) {
-                    cout << alg2_name << " was faster by " << (total_duration1 - total_duration2).count() << " ms." << endl;
-                } else {
-                    cout << "The algorithms took the same amount of time to run." << endl;
-                }
 
                 // Print top 5 games from Algorithm 1
+                cout << "\n-----------------------------------"<< endl;
                 cout << "Top " << num_games << " games from " << alg1_name << ":" << endl;
                 if (alg1 == 2) {
                     for (i = 0; i < num_games && i < temp_results_vector.size(); i++) {
@@ -812,6 +786,31 @@ int main() {
                         cout << results_heap2.top().second << endl;
                         results_heap2.pop();
                     }
+                }
+                cout << "-----------------------------------\n"<< endl;
+
+                cout << "Comparison Results:" << endl;
+                cout << "-------------------" << endl;
+
+                // Algorithm 1 Time
+                cout << alg1_name << ":" << endl;
+                cout << "Setup Time:    " << setup_duration1.count() << " ms" << endl;
+                cout << "Running Time:  " << run_duration1.count() << " ms" << endl;
+                cout << "Total Time:    " << total_duration1.count() << " ms\n" << endl;
+
+                // Algorithm 2 Times
+                cout << alg2_name << ":" << endl;
+                cout << "Setup Time:    " << setup_duration2.count() << " ms" << endl;
+                cout << "Running Time:  " << run_duration2.count() << " ms" << endl;
+                cout << "Total Time:    " << total_duration2.count() << " ms\n" << endl;
+
+                // Winner fstets alg
+                if (total_duration1 < total_duration2) {
+                    cout << alg1_name << " was faster by " << (total_duration2 - total_duration1).count() << " ms." << endl;
+                } else if (total_duration2 < total_duration1) {
+                    cout << alg2_name << " was faster by " << (total_duration1 - total_duration2).count() << " ms." << endl;
+                } else {
+                    cout << "The algorithms took the same amount of time to run." << endl;
                 }
 
                 response = "r";
