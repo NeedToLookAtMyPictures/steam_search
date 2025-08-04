@@ -29,8 +29,6 @@ void readJson(json& dataJSON, unordered_map<string, Game>& allGames) {
         string name = game_info.value("name", "");
         name = cleanName(name);
 
-        // TODO replace trash with more readable variable names
-
         allGames[name].setID(stoi(game_id));
         allGames[name].setPrice(static_cast<double>(game_info.value("price", 0.0)));
         allGames[name].setRequiredAge(game_info.value("requiredAge", 0));
@@ -106,6 +104,8 @@ void readJson(json& dataJSON, unordered_map<string, Game>& allGames) {
         int positive = game_info.value("positive", 0);
         int negative = game_info.value("negative", 0);
         allGames[name].setReviewScore(positive, negative);
+
+        allGames[name].setImageURL(game_info.value("header_image", ""));
     }
 }
 

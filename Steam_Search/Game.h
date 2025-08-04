@@ -36,6 +36,7 @@ private:
     double reviewScore; //positive - negative
 
     unordered_map<string, int> tags;
+    string imageURL;
 
 public:
     Game();
@@ -68,6 +69,8 @@ public:
 
     unordered_map<string, int> getTags() const;
 
+    string getImageURL() const;
+
     //Setters
     void setID(int id);
 
@@ -94,6 +97,8 @@ public:
     void setReviewScore(int positive, int negative);
 
     void setTags(unordered_map<string, int> tags);
+
+    void setImageURL(string url);
 
     //methods
     int getTagCount();
