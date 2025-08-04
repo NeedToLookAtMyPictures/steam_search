@@ -3,6 +3,6 @@ Source of our Steam data:
 
 To run the program:
 1. Download the dataset linked above. Place games.json in the folder "Steam_Search" (should have all of the source code here).
-2. Make sure that before you open the project in CLion (or other ide) that if there is a cmake-build-... folder that it is deleted.
-3. Open CMakeLists.txt in CLion (or other ide) and build the project.
-4. Run the project and enter your commands through the command line.
+2. Open CMakeLists.txt in CLion (or other ide) and build the project.
+3. Run the project and enter your commands through the command line.
+
