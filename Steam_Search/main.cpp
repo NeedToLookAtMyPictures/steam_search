@@ -140,7 +140,7 @@ int main() {
         }
 
         //select how many games to be displayed and error handle input IF NOT CHOSEN OPTION 6
-        if (choice > 0 && choice <= 5) {
+        if (choice >= 0 && choice <= 5) {
             cout << "\nHow many games would you like displayed at a time: " << endl;
             cout << "--------------------------------------------------"<< endl;
             while (true) {
