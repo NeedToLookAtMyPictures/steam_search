@@ -65,7 +65,7 @@ void showLogo() {
 int main() {
     showLogo();
 
-    cout << "\nPrepping dataset, and preprocessing data for algorithms. Please wait up to 2 minutes...\n" << endl;
+    cout << "\nPrepping dataset, and preprocessing data for algorithms. Please wait...\n" << endl;
 
     cout << "[.] Loading JSON file..." << flush;
     ifstream f("../games.json");
