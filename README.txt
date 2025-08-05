@@ -6,3 +6,5 @@ To run the program:
 2. Open CMakeLists.txt in CLion (or other ide) and build the project.
 3. Run the project and enter your commands through the command line.
 
+steam_search/Steam_Search -> Place dataset here.
+
